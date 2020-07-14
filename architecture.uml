@@ -1,0 +1,22 @@
+@startuml
+
+title Traefik Consul SpringBoot
+
+package infrastructure {
+    [Consul] as consul
+    [Traefik] as traefik
+    traefik -right-> consul: read
+}
+package backend {
+	[user-repository]
+	[user-application]
+	[user-repository] -left- UserApi
+	[user-application] -right-> UserApi
+}
+[consul] -- registry
+[consul] -- config
+[user-repository] -up-> config: read
+[user-repository] -up-> registry: register
+[user-application] -up-> registry: read
+
+@enduml
