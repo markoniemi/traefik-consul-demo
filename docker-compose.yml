@@ -1,0 +1,41 @@
+version: '2'
+services:
+    traefik:
+        image: traefik:v1.7.5
+        command:
+            - "--api"
+            - "--consulCatalog" #Enable Consul Catalog Provider.
+            - "--consulCatalog.endpoint=consul:8500" #Consul server endpoints
+            - "--consulCatalog.exposedByDefault=false" #Expose Consul catalog services by default in Traefik.
+            - "--consulCatalog.stale=false" #Allow Consul server to serve the catalog reads regardless of whether it is the leader.
+            - "--consulCatalog.domain=consul.localhost" #Default base domain used for the frontend rules.
+            - "--consulCatalog.prefix=traefik" #Prefix for Consul catalog tags.
+            - "--logLevel=DEBUG"
+        ports:
+            - 80:80     #The HTTP port
+            - 8080:8080 #The Web UI (enabled by --api)
+        networks:
+            - microservices
+    consul:
+        image: consul:1.5.1
+        ports:
+#            - 8301:8301 #LAN Serf: The Serf LAN port (TCP and UDP)
+#            - 8302:8302 #Wan Serf: The Serf WAN port TCP and UDP)
+#            - 8300:8300 #server: Server RPC address (TCP Only)
+#            - 8500:8500 #HTTP: The HTTP API (TCP Only)
+            - 8600:53/udp #DNS: The DNS server (TCP and UDP)
+        command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level debug
+        networks:
+            - microservices
+    portainer:
+        image: portainer/portainer
+        command: -H unix:///var/run/docker.sock
+        restart: always
+        ports:
+            - 9000:9000
+            - 8000:8000
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock            
+networks:
+    microservices:
+        driver: bridge
