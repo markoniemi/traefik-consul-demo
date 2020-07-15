@@ -1,11 +1,11 @@
 # Traefic Consul SpringBoot demo
 
-A demonstration of using Consul Connect service discovery and Traefik reverse proxy with Spring Boot application. 
+A demonstration of using Consul Connect service discovery and Traefik reverse proxy and load balancer with Spring Boot application. 
 
 Run following commands:
 
-    docker-compose up -d
-    ./run.sh
+    ./build.sh
+    docker-compose up -d    
 
 Browse to localhost/demo/hello
 

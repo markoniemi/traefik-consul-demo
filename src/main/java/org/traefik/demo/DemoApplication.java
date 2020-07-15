@@ -7,9 +7,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.log4j.Log4j2;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
+@Log4j2
 public class DemoApplication {
 
     public static void main(String[] args) {
@@ -23,6 +26,7 @@ public class DemoApplication {
 
     @RequestMapping("/hello")
     public String home() {
+        log.info("/hello");
         return "Hello world";
     }
 

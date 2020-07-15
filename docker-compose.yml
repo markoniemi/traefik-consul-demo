@@ -19,12 +19,45 @@ services:
     consul:
         image: consul:1.5.1
         ports:
-#            - 8301:8301 #LAN Serf: The Serf LAN port (TCP and UDP)
-#            - 8302:8302 #Wan Serf: The Serf WAN port TCP and UDP)
-#            - 8300:8300 #server: Server RPC address (TCP Only)
-#            - 8500:8500 #HTTP: The HTTP API (TCP Only)
+            - 8301:8301 #LAN Serf: The Serf LAN port (TCP and UDP)
+            - 8302:8302 #Wan Serf: The Serf WAN port TCP and UDP)
+            - 8300:8300 #server: Server RPC address (TCP Only)
+            - 8500:8500 #HTTP: The HTTP API (TCP Only)
             - 8600:53/udp #DNS: The DNS server (TCP and UDP)
         command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level debug
+        networks:
+            - microservices
+    demo-application-8082:
+        image: markoniemi/traefik-consul-demo
+        environment:
+            - PORT=8082
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - PATH_PREFIX=${PATH_PREFIX}
+        ports:
+            - 8082:8082
+        networks:
+            - microservices
+    demo-application-8083:
+        image: markoniemi/traefik-consul-demo
+        environment:
+            - PORT=8083
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - PATH_PREFIX=${PATH_PREFIX}
+        ports:
+            - 8083:8083
+        networks:
+            - microservices
+    demo-application-8084:
+        image: markoniemi/traefik-consul-demo
+        environment:
+            - PORT=8084
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - PATH_PREFIX=${PATH_PREFIX}
+        ports:
+            - 8084:8084
         networks:
             - microservices
     portainer:

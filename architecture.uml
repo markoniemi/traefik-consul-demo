@@ -8,6 +8,24 @@ package infrastructure {
     traefik -right-> consul: read
 }
 package backend {
+	[demo-application] 
+}
+traefik -up- frontend_API
+traefik --> backend_API
+[demo-application] -up- backend_API
+[consul] -- registry
+[consul] -- config
+[demo-application] -up-> config: read
+[demo-application] -up-> registry: register
+
+@enduml
+
+package infrastructure {
+    [Consul] as consul
+    [Traefik] as traefik
+    traefik -right-> consul: read
+}
+package backend {
 	[user-repository]
 	[user-application]
 	[user-repository] -left- UserApi
@@ -18,5 +36,3 @@ package backend {
 [user-repository] -up-> config: read
 [user-repository] -up-> registry: register
 [user-application] -up-> registry: read
-
-@enduml
