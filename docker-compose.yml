@@ -11,9 +11,14 @@ services:
             - "--consulCatalog.domain=consul.localhost" #Default base domain used for the frontend rules.
             - "--consulCatalog.prefix=traefik" #Prefix for Consul catalog tags.
             - "--logLevel=DEBUG"
+#            - "--docker.endpoint=unix:///var/run/docker.sock"
+#            - "--docker.domain=docker.localhost"
+#            - "--docker.exposedByDefault=true"
         ports:
             - 80:80     #The HTTP port
             - 8080:8080 #The Web UI (enabled by --api)
+#        volumes:
+#            - /var/run/docker.sock:/var/run/docker.sock            
         networks:
             - microservices
     consul:
@@ -33,6 +38,7 @@ services:
             - PORT=8082
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
+            - VERSION=v1
             - PATH_PREFIX=${PATH_PREFIX}
         ports:
             - 8082:8082
@@ -44,6 +50,7 @@ services:
             - PORT=8083
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
+            - VERSION=v1
             - PATH_PREFIX=${PATH_PREFIX}
         ports:
             - 8083:8083
@@ -55,7 +62,8 @@ services:
             - PORT=8084
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
-            - PATH_PREFIX=${PATH_PREFIX}
+            - VERSION=v2
+            - PATH_PREFIX=demo/v2
         ports:
             - 8084:8084
         networks:

@@ -5,12 +5,12 @@ spring:
         consul:
 #            host: consul
 #            port: 8500
-            host: ${CONSUL_HOST}
-            port: ${CONSUL_PORT}
+            host: ${CONSUL_HOST:consul}
+            port: ${CONSUL_PORT:8500}
             discovery:
                 tags:
 #                    - traefik.frontend.rule=PathPrefixStrip:/demo
                     - traefik.enable=true
-                    - traefik.frontend.rule=PathPrefixStrip:/${PATH_PREFIX}
+                    - traefik.frontend.rule=PathPrefixStrip:/${PATH_PREFIX:demo/v1}
                 instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
-                service-name: ${spring.application.name}
+                service-name: ${spring.application.name}-${VERSION:v1}
