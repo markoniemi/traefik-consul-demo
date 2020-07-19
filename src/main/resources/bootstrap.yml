@@ -3,14 +3,11 @@ spring:
         name: traefik-consul-demo
     cloud:
         consul:
-#            host: consul
-#            port: 8500
             host: ${CONSUL_HOST:consul}
             port: ${CONSUL_PORT:8500}
             discovery:
                 tags:
-#                    - traefik.frontend.rule=PathPrefixStrip:/demo
                     - traefik.enable=true
-                    - traefik.frontend.rule=PathPrefixStrip:/${PATH_PREFIX:demo/v1}
+                    - traefik.http.routers.demo-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/demo/v1}`)
                 instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
                 service-name: ${spring.application.name}-${VERSION:v1}

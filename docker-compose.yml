@@ -1,34 +1,36 @@
 version: '2'
 services:
     traefik:
-        image: traefik:v1.7.5
+        image: traefik:v2.3
         command:
-            - "--api"
-            - "--consulCatalog" #Enable Consul Catalog Provider.
-            - "--consulCatalog.endpoint=consul:8500" #Consul server endpoints
-            - "--consulCatalog.exposedByDefault=false" #Expose Consul catalog services by default in Traefik.
-            - "--consulCatalog.stale=false" #Allow Consul server to serve the catalog reads regardless of whether it is the leader.
-            - "--consulCatalog.domain=consul.localhost" #Default base domain used for the frontend rules.
-            - "--consulCatalog.prefix=traefik" #Prefix for Consul catalog tags.
-            - "--logLevel=DEBUG"
-#            - "--docker.endpoint=unix:///var/run/docker.sock"
-#            - "--docker.domain=docker.localhost"
-#            - "--docker.exposedByDefault=true"
+            - "--api=true"
+            - "--api.dashboard=true"
+            - "--api.insecure=true"
+            - "--providers.consulCatalog=true"
+            - "--providers.consulCatalog.endpoint.address=consul:8500"
+            - "--providers.consulCatalog.exposedByDefault=false"
+            - "--providers.consulCatalog.stale=false"
+            - "--providers.consulCatalog.prefix=traefik"
+            - "--log.level=DEBUG"
+#            - "--providers.docker=true"
+#            - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+#            - "--providers.docker.domain=docker.localhost"
+#            - "--providers.docker.exposedByDefault=false"
         ports:
-            - 80:80     #The HTTP port
-            - 8080:8080 #The Web UI (enabled by --api)
-#        volumes:
-#            - /var/run/docker.sock:/var/run/docker.sock            
+            - 80:80
+            - 8080:8080
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
         networks:
             - microservices
     consul:
-        image: consul:1.5.1
+        image: consul:1.8.0
         ports:
-            - 8301:8301 #LAN Serf: The Serf LAN port (TCP and UDP)
-            - 8302:8302 #Wan Serf: The Serf WAN port TCP and UDP)
-            - 8300:8300 #server: Server RPC address (TCP Only)
-            - 8500:8500 #HTTP: The HTTP API (TCP Only)
-            - 8600:53/udp #DNS: The DNS server (TCP and UDP)
+            - 8301:8301
+            - 8302:8302
+            - 8300:8300
+            - 8500:8500
+            - 8600:53/udp
         command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level debug
         networks:
             - microservices
@@ -40,6 +42,10 @@ services:
             - CONSUL_PORT=${CONSUL_PORT}
             - VERSION=v1
             - PATH_PREFIX=${PATH_PREFIX}
+#        labels:
+#            - traefik.enable=true
+#            - traefik.http.routers.demo-v1.rule=PathPrefix(`${PATH_PREFIX}`)
+#            - traefik.http.services.demo-v1.loadbalancer.server.port=8082
         ports:
             - 8082:8082
         networks:
@@ -50,8 +56,12 @@ services:
             - PORT=8083
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
-            - VERSION=v1
-            - PATH_PREFIX=${PATH_PREFIX}
+            - VERSION=v2
+            - PATH_PREFIX=/demo/v2
+#        labels:
+#            - traefik.enable=true
+#            - traefik.http.routers.demo-v2.rule=PathPrefix(`/demo/v2`)
+#            - traefik.http.services.demo-v2.loadbalancer.server.port=8083
         ports:
             - 8083:8083
         networks:
@@ -63,13 +73,17 @@ services:
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
             - VERSION=v2
-            - PATH_PREFIX=demo/v2
+            - PATH_PREFIX=/demo/v2
+#        labels:
+#            - traefik.enable=true
+#            - traefik.http.routers.demo-v2.rule=PathPrefix(`/demo/v2`)
+#            - traefik.http.services.demo-v2.loadbalancer.server.port=8084
         ports:
             - 8084:8084
         networks:
             - microservices
     portainer:
-        image: portainer/portainer
+        image: portainer/portainer:1.24.0
         command: -H unix:///var/run/docker.sock
         restart: always
         ports:
