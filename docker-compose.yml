@@ -12,10 +12,6 @@ services:
             - "--providers.consulCatalog.stale=false"
             - "--providers.consulCatalog.prefix=traefik"
             - "--log.level=DEBUG"
-#            - "--providers.docker=true"
-#            - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-#            - "--providers.docker.domain=docker.localhost"
-#            - "--providers.docker.exposedByDefault=false"
         ports:
             - 80:80
             - 8080:8080
@@ -34,52 +30,22 @@ services:
         command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level debug
         networks:
             - microservices
-    demo-application-8082:
+    demo-application-v1:
         image: markoniemi/traefik-consul-demo
         environment:
-            - PORT=8082
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
             - VERSION=v1
             - PATH_PREFIX=${PATH_PREFIX}
-#        labels:
-#            - traefik.enable=true
-#            - traefik.http.routers.demo-v1.rule=PathPrefix(`${PATH_PREFIX}`)
-#            - traefik.http.services.demo-v1.loadbalancer.server.port=8082
-        ports:
-            - 8082:8082
         networks:
             - microservices
-    demo-application-8083:
+    demo-application-v2:
         image: markoniemi/traefik-consul-demo
         environment:
-            - PORT=8083
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
             - VERSION=v2
             - PATH_PREFIX=/demo/v2
-#        labels:
-#            - traefik.enable=true
-#            - traefik.http.routers.demo-v2.rule=PathPrefix(`/demo/v2`)
-#            - traefik.http.services.demo-v2.loadbalancer.server.port=8083
-        ports:
-            - 8083:8083
-        networks:
-            - microservices
-    demo-application-8084:
-        image: markoniemi/traefik-consul-demo
-        environment:
-            - PORT=8084
-            - CONSUL_HOST=${CONSUL_HOST}
-            - CONSUL_PORT=${CONSUL_PORT}
-            - VERSION=v2
-            - PATH_PREFIX=/demo/v2
-#        labels:
-#            - traefik.enable=true
-#            - traefik.http.routers.demo-v2.rule=PathPrefix(`/demo/v2`)
-#            - traefik.http.services.demo-v2.loadbalancer.server.port=8084
-        ports:
-            - 8084:8084
         networks:
             - microservices
     portainer:
