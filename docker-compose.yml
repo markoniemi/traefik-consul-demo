@@ -35,7 +35,7 @@ services:
         environment:
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
-            - VERSION=v1
+            - VERSION=${VERSION}
             - PATH_PREFIX=${PATH_PREFIX}
         networks:
             - microservices
