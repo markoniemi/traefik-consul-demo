@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/demo")
 @RefreshScope 
 public class DemoApplication {
-    @Value("${runtime.environment}")
+    @Value("${runtime.environment:dev}")
     private String environment;
 
     public static void main(String[] args) {
