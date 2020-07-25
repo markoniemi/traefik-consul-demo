@@ -1,6 +1,6 @@
 spring:
     application:
-        name: traefik-consul-demo
+        name: demo-service
     cloud:
         consul:
             host: ${CONSUL_HOST:consul}

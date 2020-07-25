@@ -1,12 +1,12 @@
 version: '2'
 services:
-    demo-application-v1:
-        image: markoniemi/traefik-consul-demo
+    demo-service-v2:
+        image: markoniemi/demo-service
         environment:
             - CONSUL_HOST=${CONSUL_HOST}
             - CONSUL_PORT=${CONSUL_PORT}
-            - VERSION=${VERSION}
-            - PATH_PREFIX=${PATH_PREFIX}
+            - VERSION=v2
+            - PATH_PREFIX=/demo/v2
         networks:
             - backend
 networks:
