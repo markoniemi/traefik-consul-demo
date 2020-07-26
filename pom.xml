@@ -22,6 +22,7 @@
     </properties>
     <modules>
         <module>demo-service</module>
+        <module>demo-client</module>
     </modules>
     <build>
         <plugins>
@@ -52,20 +53,6 @@
                     <skipITs>${skipTests}</skipITs>
                     <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.traefik.demo.DemoApplication</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
