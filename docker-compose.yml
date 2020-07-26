@@ -39,6 +39,33 @@ services:
             - 8000:8000
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock            
+    demo-service-v1:
+        image: markoniemi/demo-service
+        environment:
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - VERSION=${VERSION}
+            - PATH_PREFIX=${PATH_PREFIX}
+        networks:
+            - backend
+    demo-service-v2:
+        image: markoniemi/demo-service
+        environment:
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - VERSION=v2
+            - PATH_PREFIX=/demo/v2
+        networks:
+            - backend
+    demo-client:
+        image: markoniemi/demo-client
+        environment:
+            - CONSUL_HOST=${CONSUL_HOST}
+            - CONSUL_PORT=${CONSUL_PORT}
+            - VERSION=${VERSION}
+            - PATH_PREFIX=/client/v1
+        networks:
+            - backend
 networks:
     backend:
         driver: bridge
