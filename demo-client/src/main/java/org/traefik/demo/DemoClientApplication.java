@@ -34,6 +34,8 @@ public class DemoClientApplication {
 
     @RequestMapping("/v1/hello")
     public String home() {
+    	log.info(environment);
+    	log.info("/v1/hello/");
         return this.restTemplate.getForObject("http://demo-service-v1/demo/v1/hello", String.class);
     }
     

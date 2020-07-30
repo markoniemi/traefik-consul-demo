@@ -28,15 +28,16 @@ public class DemoApplication {
 
     @RequestMapping("/v1/hello")
     public String home() {
+    	log.info(environment);
         log.info("/v1/hello");
         return "Hello world";
     }
 
     @RequestMapping("/v2/hello/{name}")
     public String home(@PathVariable("name") String name) {
+    	log.info(environment);
         String response = "/v2/hello/" + name;
         log.info(response);
-        log.info(environment);
         return response;
     }
 }
