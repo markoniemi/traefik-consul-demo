@@ -21,8 +21,11 @@
         <docker.image.prefix>markoniemi</docker.image.prefix>
     </properties>
     <modules>
-        <module>demo-service</module>
-        <module>demo-client</module>
+<!--         <module>demo-service</module> -->
+<!--         <module>demo-client</module> -->
+        <module>user-repository</module>
+        <module>user-api</module>
+        <module>user-application</module>
     </modules>
     <build>
         <plugins>
@@ -98,6 +101,16 @@
                 <version>${selenium.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

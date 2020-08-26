@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: user-application
+    cloud:
+        consul:
+            enabled: true
+            host: ${CONSUL_HOST:consul}
+            port: ${CONSUL_PORT:8500}
+            config:
+                enabled: true
+            discovery:
+                tags:
+                    - traefik.enable=true
+                    - traefik.http.routers.user-application-${VERSION:v1}.rule=PathPrefix(`/users`,`/actuator`)
+                instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+                service-name: ${spring.application.name}-${VERSION:v1}
+                healthCheckPath: /users/actuator/health

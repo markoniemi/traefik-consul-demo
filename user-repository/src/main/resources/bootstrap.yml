@@ -1,0 +1,24 @@
+spring:
+    application:
+        name: user-repository
+    cloud:
+        consul:
+            host: ${CONSUL_HOST:consul}
+            port: ${CONSUL_PORT:8500}
+            config:
+                enabled: true
+            discovery:
+                tags:
+                    - traefik.enable=true
+                    - traefik.http.routers.demo-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/api/rest/users}`,`/actuator`)
+                instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+                service-name: ${spring.application.name}-${VERSION:v1}
+
+# todo add retry config
+#        config:
+#            fail-fast: true
+#spring.cloud.config.fail-fast=true
+#spring.cloud.config.retry.max-attempts=90
+#spring.cloud.config.retry.initial-interval=1500
+#spring.cloud.config.retry.multiplier=1.5
+
