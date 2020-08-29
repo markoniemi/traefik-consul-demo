@@ -10,7 +10,7 @@ spring:
             discovery:
                 tags:
                     - traefik.enable=true
-                    - traefik.http.routers.demo-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/api/rest/users}`,`/actuator`)
+                    - traefik.http.routers.user-repository-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/api/rest/users}`,`/actuator`)
                 instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
                 service-name: ${spring.application.name}-${VERSION:v1}
 

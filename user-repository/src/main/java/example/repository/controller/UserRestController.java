@@ -18,25 +18,25 @@ import example.repository.user.UserRepository;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@RequestMapping("/api/rest")
+@RequestMapping("/api/rest/users/v1")
 @Log4j2
 public class UserRestController {
     @Resource
     private UserRepository userRepository;
 
-    @GetMapping(value = "/users")
+    @GetMapping
     public User[] findAll() {
-        log.trace("findAll");
+        log.info("/api/rest/users/v1");
         return userRepository.findAll().toArray(new User[0]);
     }
 
-    @PostMapping(value = "/users")
+    @PostMapping
     public User create(@RequestBody User user) {
         log.trace("create: {}", user);
         return userRepository.save(user);
     }
 
-    @PutMapping(value = "/users")
+    @PutMapping
     public User update(@RequestBody User user) {
         User databaseUser = userRepository.findByUsername(user.getUsername());
         Validate.notNull(databaseUser, "User does not exist.");
@@ -48,34 +48,34 @@ public class UserRestController {
         return userRepository.save(databaseUser);
     }
 
-    @DeleteMapping(value = "/users/{id}")
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable("id") Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         }
     }
 
-    @GetMapping(value = "/users/{id}")
+    @GetMapping(value = "/{id}")
     public User findById(@PathVariable("id") Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    @GetMapping(value = "/users", params = "username")
+    @GetMapping(params = "username")
     public User findByUsername(@RequestParam String username) {
         return userRepository.findByUsername(username);
     }
 
-    @GetMapping(value = "/users", params = "email")
+    @GetMapping(params = "email")
     public User findByEmail(@RequestParam String email) {
         return userRepository.findByEmail(email);
     }
 
-    @GetMapping(value = "/users/exists/{id}")
+    @GetMapping(value = "/exists/{id}")
     public boolean exists(@PathVariable("id") Long id) {
         return userRepository.existsById(id);
     }
 
-    @GetMapping(value = "/users/count")
+    @GetMapping(value = "/count")
     public long count() {
         return userRepository.count();
     }
