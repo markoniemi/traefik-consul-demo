@@ -1,0 +1,6 @@
+spring:
+    cloud:
+        consul:
+            host: ${CONSUL_HOST:localhost}
+            discovery:
+                prefer-ip-address: true
