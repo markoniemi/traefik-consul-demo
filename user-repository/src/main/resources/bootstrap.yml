@@ -8,10 +8,12 @@ spring:
             config:
                 enabled: true
             discovery:
+                enabled: true
                 tags:
                     - traefik.enable=true
                     - traefik.http.routers.user-repository-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/api/rest/users}`,`/actuator`)
-                instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+                    - version=${VERSION:v1}
+                instance-id: ${spring.application.name}-${spring.cloud.client.hostname}-${server.port}
                 service-name: ${spring.application.name}-${VERSION:v1}
 
 # todo add retry config
