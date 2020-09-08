@@ -58,7 +58,7 @@ services:
       - VERSION=${VERSION}
       - PATH_PREFIX=${PATH_PREFIX}
   db:
-    image: postgres
+    image: postgres:12-alpine
     restart: always
     environment:
       POSTGRES_PASSWORD: mysecretpassword
