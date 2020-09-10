@@ -6,7 +6,8 @@ services:
       - "--api=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      #- "--providers.docker=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
       - "--providers.consulCatalog=true"
       - "--providers.consulCatalog.endpoint.address=consul:8500"
       - "--providers.consulCatalog.exposedByDefault=false"
@@ -29,12 +30,10 @@ services:
       - 8500:8500
       - 8600:53/udp
     command: consul agent -server -dev -client=0.0.0.0 -ui -bootstrap -log-level debug
-#    labels:
-#      - "traefik.http.routers.consul.rule=PathPrefix(`/consul}`)"
-#      - "traefik.http.routers.consul.rule=Host(`consul`)"
-#      #- "traefik.frontend.rule=Host:consul"
-#      - "traefik.enable=true"
-#      - "traefik.port=8500"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.consul.rule=Host(`consul.docker.localhost`)"
+      - "traefik.http.services.consul.loadbalancer.server.port=8500"
     networks:
       - backend
   user-repository:
@@ -43,7 +42,8 @@ services:
       - CONSUL_HOST=${CONSUL_HOST}
       - CONSUL_PORT=${CONSUL_PORT}
       - VERSION=${VERSION}
-      - PATH_PREFIX=${PATH_PREFIX}
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
     networks:
       - backend
   user-application:
@@ -57,11 +57,11 @@ services:
       - CONSUL_PORT=${CONSUL_PORT}
       - VERSION=${VERSION}
       - PATH_PREFIX=${PATH_PREFIX}
-  db:
+  postgres:
     image: postgres:12-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - 5432:5432
     networks:

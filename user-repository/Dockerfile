@@ -5,7 +5,8 @@ RUN apk --no-cache add curl
 ENV CONSUL_HOST=consul
 ENV CONSUL_PORT=8500
 ENV VERSION=v1
-ENV PATH_PREFIX=/api/rest/users
+ENV DB_HOST=postgres
+ENV DB_PASSWORD=mysecretpassword
 ENV PORT=8082
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/BOOT-INF/lib
 COPY ${DEPENDENCY}/META-INF /app/META-INF

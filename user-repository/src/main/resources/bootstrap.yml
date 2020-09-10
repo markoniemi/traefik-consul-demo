@@ -11,7 +11,7 @@ spring:
                 enabled: true
                 tags:
                     - traefik.enable=true
-                    - traefik.http.routers.user-repository-${VERSION:v1}.rule=PathPrefix(`${PATH_PREFIX:/api/rest/users}`,`/actuator`)
+                    - traefik.http.routers.user-repository-${VERSION:v1}.rule=PathPrefix(`/api/rest/users`,`/actuator`)
                     - version=${VERSION:v1}
                 instance-id: ${spring.application.name}-${spring.cloud.client.hostname}-${server.port}
                 service-name: ${spring.application.name}-${VERSION:v1}
