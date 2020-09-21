@@ -62,3 +62,12 @@ scale services:
  # Refresh application or logout/login
  # note service logs in Portainer, services are called in round-robin manner
 
+## Config
+
+ # Login to application
+ # Note the runtime environment value in footer
+ # Add config value to Consul: config.user-repository.runtime.env=production
+ # Refresh application view in browser
+ # Note the new runtime environment value
+ # note the application log in Portainer
+ 
