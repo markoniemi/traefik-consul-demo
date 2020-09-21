@@ -8,16 +8,19 @@ package infrastructure {
     traefik -right-> consul: read
 }
 package backend {
-	[demo-application] 
+[user-repository]
+[user-application]
 }
 traefik -up- frontend_API
 traefik --> backend_API
-[demo-application] -up- backend_API
+[user-application] -up- backend_API
 [consul] -- registry
 [consul] -- config
-[demo-application] -up-> config: read
-[demo-application] -up-> registry: register
-
+[user-application] -up-> config: read
+[user-application] -up-> registry: read
+[user-repository] -up-> registry: register
+[user-repository] -- user_api
+[user-application] --> user_api
 @enduml
 
 package infrastructure {

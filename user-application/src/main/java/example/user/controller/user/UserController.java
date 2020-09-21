@@ -43,6 +43,7 @@ public class UserController {
 
     @PostMapping(value = "/user/save")
     public String saveUser(@ModelAttribute @Validated User user, BindingResult bindingResult) {
+    	log.info("post /user/save");
         if (bindingResult.hasErrors()) {
             return "/user/user";
         }
@@ -63,11 +64,13 @@ public class UserController {
 
     @GetMapping(value = "/user/new")
     public ModelAndView newUser() {
+    	log.info("get /user/new");
         return editUser(null);
     }
 
     @GetMapping(value = "/user/{username}")
     public ModelAndView editUser(@PathVariable String username) {
+    	log.info("get /user/"+username);
         User user = null;
         if (StringUtils.isNotBlank(username)) {
             user = userService.findByUsername(username);

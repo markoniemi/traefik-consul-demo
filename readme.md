@@ -1,26 +1,7 @@
+
 # Traefic Consul SpringBoot demo
 
-A demonstration of using Consul Connect service discovery and Traefik reverse proxy and load balancer with Spring Boot application. 
-
-Run following commands:
-
-    ./build.sh
-    docker-compose -f infrastructure.yml up -d
-    docker-compose -f demo-application-v1.yml -f demo-application-v2.yml up -d
-
-scale services:
-
-    docker-compose -f demo-application-v1.yml -f demo-application-v2.yml up -d --scale demo-application-v1=2 --scale demo-application-v2=2
-    
-start all services and scale:
-
-    docker-compose -f infrastructure.yml -f demo-application-v1.yml -f demo-application-v2.yml up -d --scale demo-application-v1=2 --scale demo-application-v2=2
-
- * Open Portainer [http://localhost:9000](http://localhost:9000)
- * Open Consul [http://localhost:8500](http://localhost:8500)
- * Open Traefik [http://localhost:8080](http://localhost:8080)
- * Test v1 service [http://localhost/demo/v1/hello](http://localhost/demo/v1/hello)
- * Test v2 service [http://localhost/demo/v2/hello/name](http://localhost/demo/v2/hello/name)
+A demonstration of using Consul Connect service discovery and Traefik reverse proxy and load balancer with Spring Boot application.
 
 ## Architecture
 
@@ -28,6 +9,56 @@ Traefik is a dynamic reverse proxy. ConsulConnect is a service discovery server.
 
 ![architecture](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/markoniemi/traefik-consul-demo/master/architecture.uml)
 
-## todo
+## Infrastructure 
 
-  * integration tests that load service from consul
+Start Portainer and Traefik:
+
+    docker-compose up -d portainer traefik consul
+    
+Open browser: 
+ * Portainer [http://localhost:9000](http://localhost:9000)
+ * Consul [http://localhost:8500](http://localhost:8500)
+ * Traefik [http://localhost:8080](http://localhost:8080)
+
+## Application
+
+Build backend service and frontend application:
+
+    ./build.sh
+    docker-compose up -d
+
+## Service discovery
+
+Check that there are user-repository-v1 and user-application-v1 services in Consul: 
+ * Consul [http://localhost:8500](http://localhost:8500)
+
+ # stop user-repository in Portainer
+ # note that user-repository-v1 shows error in Consul
+ # start user-repository in Portainer
+ # note how quickly user-repository-v1 becomes available in Consul
+
+## Reverse proxy
+
+Traefik shows a http port for user-application:
+ * Traefik [http://localhost:8080](http://localhost:8080)
+
+Application should be available through reverse proxy:
+ * [http://localhost/users](http://localhost/users)
+
+ # Login to application [http://localhost/users](http://localhost/users)
+ # note service logs in Portainer
+
+## Load balancing
+
+scale services:
+
+    docker-compose up -d --scale user-repository-v1=2  
+
+ # Portainer shows two instances for user-repository-v1
+ # Consul shows two instances
+ # Trafik shows two instances
+ # Login to application
+ # note service logs in Portainer
+ # Refresh application or logout/login
+ # note service logs in Portainer, services are called in round-robin manner
+
