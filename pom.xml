@@ -21,10 +21,8 @@
         <docker.image.prefix>markoniemi</docker.image.prefix>
     </properties>
     <modules>
-<!--         <module>demo-service</module> -->
-<!--         <module>demo-client</module> -->
-        <module>user-repository</module>
         <module>user-api</module>
+        <module>user-repository</module>
         <module>user-application</module>
     </modules>
     <build>
