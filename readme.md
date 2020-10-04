@@ -29,13 +29,13 @@ Build backend service and frontend application:
 
 ## Service discovery
 
-Check that there are user-repository-v1 and user-application-v1 services in Consul: 
+Check that there are user-repository and user-application services in Consul: 
  * Consul [http://localhost:8500](http://localhost:8500)
 
  # stop user-repository in Portainer
- # note that user-repository-v1 shows error in Consul
+ # note that user-repository shows error in Consul
  # start user-repository in Portainer
- # note how quickly user-repository-v1 becomes available in Consul
+ # note how quickly user-repository becomes available in Consul
 
 ## Reverse proxy
 
@@ -52,9 +52,9 @@ Application should be available through reverse proxy:
 
 scale services:
 
-    docker-compose up -d --scale user-repository-v1=2  
+    docker-compose up -d --scale user-repository=2
 
- # Portainer shows two instances for user-repository-v1
+ # Portainer shows two instances for user-repository
  # Consul shows two instances
  # Trafik shows two instances
  # Login to application
@@ -66,7 +66,7 @@ scale services:
 
  # Login to application
  # Note the runtime environment value in footer
- # Add config value to Consul: config.user-repository.runtime.env=production
+ # Add config value to Consul: config/user-application/runtime.environment=docker-compose
  # Refresh application view in browser
  # Note the new runtime environment value
  # note the application log in Portainer

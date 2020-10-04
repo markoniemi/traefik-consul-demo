@@ -11,7 +11,7 @@ spring:
             discovery:
                 tags:
                     - traefik.enable=true
-                    - traefik.http.routers.user-application-${VERSION:v1}.rule=PathPrefix(`/users`,`/actuator`)
+                    - traefik.http.routers.user-application.rule=PathPrefix(`/users`,`/actuator`)
                 instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
-                service-name: ${spring.application.name}-${VERSION:v1}
+                service-name: ${spring.application.name}
                 healthCheckPath: /users/actuator/health

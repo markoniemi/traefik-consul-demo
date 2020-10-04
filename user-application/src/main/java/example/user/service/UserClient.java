@@ -14,7 +14,7 @@ import example.repository.user.User;
 import example.repository.user.UserService;
 
 @Service
-@FeignClient(name = "user-repository-v1", path = "/api/rest/users/v1")
+@FeignClient(name = "user-repository", path = "/api/rest/users/v1")
 public interface UserClient extends UserService {
 
     @Override

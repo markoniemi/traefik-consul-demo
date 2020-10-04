@@ -1,6 +1,4 @@
 PORT=${1:-8082}
-PATH_PREFIX=${2:-demo/v1}
-VERSION=${3:-v1}
 docker run \
 -it --rm \
 -d \
@@ -8,8 +6,6 @@ docker run \
 -e PORT=${PORT} \
 -e CONSUL_HOST=consul \
 -e CONSUL_PORT=8500 \
--e PATH_PREFIX=${PATH_PREFIX} \
--e VERSION=${VERSION} \
 -p ${PORT}:${PORT} \
 --network traefik-consul-demo_microservices \
 --network-alias demo \
