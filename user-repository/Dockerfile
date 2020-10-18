@@ -14,4 +14,3 @@ COPY target/user-repository-0.1-SNAPSHOT.jar /app/app.jar
 ENTRYPOINT ["java","-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-XX:MaxRAMFraction=1","-XshowSettings:vm","-jar","/app/app.jar"]
 HEALTHCHECK --interval=5s --timeout=3s --start-period=40s --retries=5 \
   CMD curl -f http://localhost:${PORT}/actuator/health/liveness || exit 1
-    

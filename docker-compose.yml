@@ -47,8 +47,8 @@ services:
       - backend
   user-application:
     image: markoniemi/user-application
-    ports:
-      - 8083:8083
+#    ports:
+#      - 8083:8083
     networks:
       - backend
     environment:

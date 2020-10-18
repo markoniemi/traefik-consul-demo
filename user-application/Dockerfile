@@ -11,5 +11,4 @@ EXPOSE ${PORT}
 COPY target/user-application-0.1-SNAPSHOT.war /app/app.war
 ENTRYPOINT ["java","-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-XX:MaxRAMFraction=1","-XshowSettings:vm","-jar","/app/app.war"]
 HEALTHCHECK --interval=5s --timeout=3s --start-period=40s --retries=5 \
-  CMD curl -f http://localhost:${PORT}/users/actuator/health || exit 1
-  
+  CMD curl -f http://localhost:${PORT}/users/actuator/health/liveness || exit 1
