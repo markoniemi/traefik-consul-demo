@@ -1,3 +1,6 @@
+# build only one module:
+# ./build -pl user-repository -am
+
 docker run \
 -it --rm \
 -v /var/run/docker.sock:/var/run/docker.sock \
